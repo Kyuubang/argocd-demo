@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: clumsy-bird
+  name: clumsy-bird
+spec:
+  selector:
+    matchLabels:
+      app: clumsy-bird
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: clumsy-bird
+    spec:
+      containers:
+      - name: clumsy-bird
+        image: bayhaqisptr/clumsy-bird:latest
+        ports:
+        - containerPort: 8001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: clumsy-service
+  labels:
+    run: clumsy-service
+spec:
+  type: NodePort
+  ports:
+  - port: 8001
+    protocol: TCP
+  selector:
+    app: clumsy-bird
+
